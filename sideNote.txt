@@ -1,0 +1,22 @@
+route
+domain
+path
+
+npm init
+npm install express
+npm install nodemon
+ubah script di package.json, tambah kan "start" : "nodemon app.js"
+untuk run gunakan command 
+npm start
+
+menjadikan website menjadi dynamic dengan ejs package
+1.install ejs dengan npm install ejs
+2.tulis d app.js
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+berfungsi agar engine membaca semua direktori folder yang ada dalam project
+
+3. buat folder 'views'
+4. ubah semua file dengan ekstensi .html menjadi .ejs dengan tujuan menjadikannya template engine ejs.
+-ubah semua route nya menjadi:
+res.render('namafile yang ada di views')
