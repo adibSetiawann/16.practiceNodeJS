@@ -11,7 +11,7 @@ app.set("view engine", "ejs");
 
 //4
 app.use(express.static("public")); //untuk membaca file css dan JS
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); //reques data will be parsed
 
 app.get("/", function (req, res) {
   // const indexPath = path.join(__dirname, "views", "index.html");
@@ -33,7 +33,7 @@ app.get("/recommend", function (req, res) {
 });
 
 app.post("/recommend", function (req, res) {
-  const restaurants = req.body;
+  const restaurant = req.body;
   const filePath = path.join(__dirname, "data", "restaurants.json"); //inisialisasi file yang menjadi wadah
 
   const fileData = fs.readFileSync(filePath);
@@ -41,7 +41,7 @@ app.post("/recommend", function (req, res) {
   const storedRestaurants = JSON.parse(fileData);
   // mengubah text data yg terinput dalam JSON menjadi array
 
-  storedRestaurants.push(restaurants); //push ke array di data folder
+  storedRestaurants.push(restaurant); //push ke array di data folder
 
   fs.writeFileSync(filePath, JSON.stringify(storedRestaurants));
   //convert lagi menjadi text format
@@ -58,7 +58,13 @@ app.get("/confirm", function (req, res) {
 app.get("/restaurants", function (req, res) {
   // const htmlFilePath = path.join(__dirname, "views", "restaurants.html"); //langkah kedua
   // res.sendFile(htmlFilePath); //langkah pertama
-  res.render("restaurants");
+  // const restaurants = req.body;
+  const filePath = path.join(__dirname, "data", "restaurants.json");
+
+  const fileData = fs.readFileSync(filePath);
+  const storedRestaurants = JSON.parse(fileData);
+
+  res.render("restaurants", { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants });
 });
 
 //3

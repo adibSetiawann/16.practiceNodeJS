@@ -20,3 +20,9 @@ berfungsi agar engine membaca semua direktori folder yang ada dalam project
 4. ubah semua file dengan ekstensi .html menjadi .ejs dengan tujuan menjadikannya template engine ejs.
 -ubah semua route nya menjadi:
 res.render('namafile yang ada di views')
+
+flowchart menyimpan data yg terinput ada di app.js line 35
+
+Menampikan data ke EJS template
+1. buat <% namaTag%> dalam tag yang akan dieksekusi dalam file.ejs
+2. kita tambahkan namaTag ke res.render() dibungkus dengan object/'{}' dan tambahkan value apa yang akan di isi didalamnya.
