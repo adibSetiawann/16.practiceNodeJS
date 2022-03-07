@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 //1
 const express = require("express");
+const uuid = require('uuid')
 //2
 const app = express();
 
@@ -26,6 +27,23 @@ app.get("/about", function (req, res) {
   res.render("about");
 });
 
+app.get("/restaurants", function (req, res) {
+  // const htmlFilePath = path.join(__dirname, "views", "restaurants.html"); //langkah kedua
+  // res.sendFile(htmlFilePath); //langkah pertama
+  // const restaurants = req.body;
+  const filePath = path.join(__dirname, "data", "restaurants.json");
+
+  const fileData = fs.readFileSync(filePath);
+  const storedRestaurants = JSON.parse(fileData);
+
+  res.render("restaurants", { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants });
+});
+
+app.get('/restaurants/:id', function(req, res) {
+  const restaurantId = req.params.id;
+  res.render('restaurant-detail', {rid: restaurantId})
+})
+
 app.get("/recommend", function (req, res) {
   // const recommendPath = path.join(__dirname, "views", "recommend.html");
   // res.sendFile(recommendPath);
@@ -34,6 +52,8 @@ app.get("/recommend", function (req, res) {
 
 app.post("/recommend", function (req, res) {
   const restaurant = req.body;
+  // 
+  restaurant.id = uuid.v4();
   const filePath = path.join(__dirname, "data", "restaurants.json"); //inisialisasi file yang menjadi wadah
 
   const fileData = fs.readFileSync(filePath);
@@ -53,18 +73,6 @@ app.get("/confirm", function (req, res) {
   // const confirmPath = path.join(__dirname, "views", "confirm.html");
   // res.sendFile(confirmPath);
   res.render("confirm");
-});
-
-app.get("/restaurants", function (req, res) {
-  // const htmlFilePath = path.join(__dirname, "views", "restaurants.html"); //langkah kedua
-  // res.sendFile(htmlFilePath); //langkah pertama
-  // const restaurants = req.body;
-  const filePath = path.join(__dirname, "data", "restaurants.json");
-
-  const fileData = fs.readFileSync(filePath);
-  const storedRestaurants = JSON.parse(fileData);
-
-  res.render("restaurants", { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants });
 });
 
 //3
